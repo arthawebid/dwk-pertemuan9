@@ -46,7 +46,16 @@
     <script>
         $(function(){
             $("#pilih option[value=-]").attr('selected','selected')
-            
+            var hsl = 0
+            $("#nC").prop("disabled",true)
+            $("#nF").prop("disabled",true)
+
+            $("select").on("change",function(){
+                let pil = $("select").val()
+
+                console.log("debug Nilai pil: "+pil)
+            })
+
         })
     </script>
   </body>
