@@ -62,6 +62,13 @@
                     $("#nC").prop("disabled",true)
                     $("#nF").prop("disabled",false)
                 }
+
+            })
+
+            $("#cmdKonvert").on('click',function(){
+                let ncel = $("#nC").val()
+                hsl = 9/5*ncel+32
+                $("#nF").val(hsl)
             })
 
         })
