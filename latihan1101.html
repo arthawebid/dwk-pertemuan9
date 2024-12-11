@@ -53,7 +53,15 @@
             $("select").on("change",function(){
                 let pil = $("select").val()
 
-                console.log("debug Nilai pil: "+pil)
+                //console.log("debug Nilai pil: "+pil)
+                if(pil=="c2f"){
+                    $("#nC").prop("disabled",false)
+                    $("#nF").prop("disabled",true)
+                }
+                if(pil=="f2c"){
+                    $("#nC").prop("disabled",true)
+                    $("#nF").prop("disabled",false)
+                }
             })
 
         })
