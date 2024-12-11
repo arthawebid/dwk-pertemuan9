@@ -47,11 +47,12 @@
         $(function(){
             $("#pilih option[value=-]").attr('selected','selected')
             var hsl = 0
+            var pil = "-"
             $("#nC").prop("disabled",true)
             $("#nF").prop("disabled",true)
 
             $("select").on("change",function(){
-                let pil = $("select").val()
+                pil = $("select").val()
 
                 //console.log("debug Nilai pil: "+pil)
                 if(pil=="c2f"){
@@ -66,9 +67,15 @@
             })
 
             $("#cmdKonvert").on('click',function(){
-                let ncel = $("#nC").val()
-                hsl = 9/5*ncel+32
-                $("#nF").val(hsl)
+                if(pil=="c2f"){
+                    let ncel = $("#nC").val()
+                    hsl = 9/5*ncel+32
+                    $("#nF").val(hsl)
+                }else{
+                    let nFah = $("#nF").val()
+                    hsl = 5/9*(nFah-32)
+                    $("#nC").val(hsl)
+                }
             })
 
         })
