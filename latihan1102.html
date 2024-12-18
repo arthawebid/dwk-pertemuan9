@@ -110,7 +110,25 @@
           url: urlProduk,
           method: 'GET',
           dataType: 'json',
-          success: function(){},
+          success: function(dta){
+            if(dta && dta.error==0 ){
+              let tProduk = ''
+              dta.produk.forEach(function(brg,index){
+                tProduk += `<div class="card" style="width: 15rem; float: left; margin:15px;">
+                  <img src="${brg.IMG}" class="card-img-top produkitem" alt="${brg.ITEM}">
+                  <div class="card-body">
+                    <h5 class="card-title">${brg.ITEM}</h5>
+                    <p class="card-text">Rp. ${brg.HRGJUAL},-</p>
+                    <a href="#" class="btn btn-primary">detail</a>
+                    <a href="#" class="btn btn-warning">Beli</a>
+                  </div>
+                </div>`
+              })
+              $('#produklist').html(tProduk)
+            }else{
+              console.log("tidak ada data produk")  
+            }
+          },
           error: function(xhr,status,error){
             console.log("Ajax Error: ",status, error)
           }
