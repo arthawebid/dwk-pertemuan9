@@ -15,6 +15,17 @@
       .deskripsi{
         text-align: justify;
       }
+      .bingkai{
+        border-radius: 20px 0px;
+      }
+      .produkitem{
+        height: 200px;
+        text-align: center;
+        object-fit: cover;
+      }
+      .card-title{
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
@@ -32,7 +43,7 @@
             <div class="col">
                 <div id="carouselExample" class="carousel slide">
                     
-                    <div class="carousel-inner" id="sliderimg"></div>
+                    <div class="carousel-inner bingkai" id="sliderimg"></div>
 
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -49,6 +60,8 @@
         <div class="produk">
           <a name="produk"></a>
 
+          <div id="produklist"></div>
+
         </div>
 
         <footer class="text-muted" style="clear:both;">
@@ -64,6 +77,8 @@
       $(function(){
         var URLAPI = "https://apimhstiki.ptov.my.id"
         var NIM = "2401010509"
+        let urlProduk = URLAPI+"/"+NIM+"/produk/list"
+        //console.log(urlProduk)
         
         $.ajax({
           url: URLAPI+'/slideshow/'+NIM,
@@ -88,6 +103,16 @@
           },
           error:function(xhr, status, error){
             console.log('Ajax Error: ',status, error)
+          }
+        })
+
+        $.ajax({
+          url: urlProduk,
+          method: 'GET',
+          dataType: 'json',
+          success: function(){},
+          error: function(xhr,status,error){
+            console.log("Ajax Error: ",status, error)
           }
         })
 
