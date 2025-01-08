@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .judul{
+      text-shadow: 2px 2px 10px #000;
+      position: relative;
+      text-align: right;
+    }
+    .konten{
+        text-align: justify;
+    }
+    .project{
+        position: relative;
+        top: 10%;
+    }
+    .bingkai{
+        border-radius: 20px 0px;
+    }
+    .jarak{
+      margin: 5px;
+    }
+    .jarak-atas{
+      margin-top: 20px;
+    }
+    .tengah{ margin: auto; max-width: 300px;}
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-6">
+            <div id="judul" class="judul"></div>
+            <div id="konten" class="konten"></div>
+            <div class="project">
+                <a class="btn btn-primary btn-lg" href="#artikel" role="button">Cek Artikel</a>
+            </div>
+        </div>
+        <div class="col">
+            <div id="imageCarousel" class="carousel slide slidewidth" data-bs-ride="carousel">
+                <div class="carousel-inner bingkai" id="carouselImages">
+                    <!-- Images will be loaded here dynamically -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+  <span class="text-muted" style="clear: both;"></span>
+  
+  <a name="artikel"></a>
+  <div class="row jarak-atas" id="vArtikel"></div>
+</div>
+<div class="container">
+  <footer class="text-muted" style="clear: both;">
+      <hr>
+      <div class="container">
+          <p class="float-right">
+              <a href="#">Back to top</a>
+          </p>
+          <p id="kopisusu">Copyright 2024 © WebDesain</p>
+      </div>
+  </footer>
+</div> 
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var URLAPI = "https://apimhstiki.ptov.my.id/"
+      var NIM = "2401010062"
+      let SH = URLAPI+"slideshow/"+NIM
+      let LArti = URLAPI+NIM+"/artikel"
+
+      $.ajax({
+        url: URLAPI+'/slideshow/'+NIM, // Replace with your API endpoint
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Check if there are images in the data
+            if (data && data.images && data.images.length > 0) {
+                var carouselItems = '';
+                $("#judul").html("<h3>"+data.judul+"</h3>")
+                $("#konten").html("<p>"+data.deskripsi+"</p>")
+                data.images.forEach(function(image, index) {
+                    var activeClass = index === 0 ? 'active' : ''; // Make the first image active
+                    carouselItems += `
+                        <div class="carousel-item ${activeClass}">
+                            <img src="${image.url}" class="d-block w-100" alt="${image.alt}">
+                        </div>
+                    `;
+                });
+                $('#carouselImages').html(carouselItems); // Inject images into the carousel
+                let cpr = `Copyright 2024 © ${data.nama}`
+                $("#kopisusu").html(cpr)
+            } else {
+                console.log("No images found in the response.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+        }
+    })
+
+      $.ajax({
+        url: LArti, // Replace with your API endpoint
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+              let ISI = ""
+              data.artikel.forEach(function(konten, index) {
+                ISI += `<div class="card jarak" style="width: 17rem;">
+  <img src="${konten.THUMNAIL}" class="card-img-top" alt="${konten.JUDUL}">
+  <div class="card-body">
+    <h5 class="card-title">${konten.JUDUL}</h5>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>`
+              })
+              $("#vArtikel").html(ISI)
+            },
+            error: function(xhr, status, error) {
+              console.error("AJAX Error:", status, error);
+          }
+      })
+    })
+  </script>
+</body>
+</html>
